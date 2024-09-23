@@ -59,6 +59,16 @@
             android:textSize="16sp"
             android:textColor="#666666" />
 
+        <!-- TextView for Displaying User Credit -->
+        <TextView
+            android:id="@+id/userCreditMainTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Your Credit: $120"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <!-- Horizontal Layout for Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,4 +98,3 @@
 
     </LinearLayout>
 </ScrollView>
-
