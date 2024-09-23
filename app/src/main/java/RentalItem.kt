@@ -7,21 +7,29 @@ data class RentalItem(
     val name: String,
     val rating: Float,
     val attribute: String,
-    val pricePerMonth: String
+    val pricePerMonth: String,
+    val description: String,
+    val imageResId: Int,
+    var isBorrowed: Boolean = false // New field to track borrow status
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readFloat(),
         parcel.readString()!!,
-        parcel.readString()!!
-    ) {
-    }
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readInt(),
+        parcel.readByte() != 0.toByte() // Read isBorrowed as Boolean
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeFloat(rating)
         parcel.writeString(attribute)
         parcel.writeString(pricePerMonth)
+        parcel.writeString(description)
+        parcel.writeInt(imageResId)
+        parcel.writeByte(if (isBorrowed) 1 else 0) // Write isBorrowed as Byte
     }
 
     override fun describeContents(): Int {
@@ -38,3 +46,4 @@ data class RentalItem(
         }
     }
 }
+
