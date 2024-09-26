@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var descriptionTextView: TextView
     private lateinit var nextButton: Button
     private lateinit var borrowButton: Button
+    private lateinit var ratingbar: RatingBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.nextButton)
         borrowButton = findViewById(R.id.borrowButton)
         userCreditMainTextView = findViewById(R.id.userCreditMainTextView)
+        ratingbar = findViewById(R.id.ratingBar)
 
         // Update the UI to display the first rental item
         updateUI()
@@ -120,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         val item = rentalItems[currentIndex] // Get the current rental item
         nameTextView.text = item.name
         ratingTextView.text = "Rating: ${item.rating}"
+        ratingbar.rating =  item.rating
         priceTextView.text = "Price: ${item.pricePerMonth}"
         descriptionTextView.text = item.description
         imageView.setImageResource(item.imageResId) // Set the image for the rental item

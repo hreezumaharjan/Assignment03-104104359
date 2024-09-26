@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:background="@drawable/store">
 
         <!-- Enlarged ImageView -->
         <ImageView
@@ -38,6 +39,23 @@
             android:layout_marginTop="8dp"
             android:text="Rating: 4.5"
             android:textSize="18sp" />
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="243dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="36dp"
+            android:isIndicator="true"
+            android:numStars="5"
+
+            android:rating="3.5"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:stepSize="0.1"
+ />
+
+
 
         <!-- Item Price -->
         <TextView
@@ -75,7 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:backgroundTint="@color/button">
 
             <!-- Next Button -->
             <Button
@@ -84,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:text="@string/next" />
+                android:text="@string/next"
+                android:backgroundTint="@color/button"/>
 
             <!-- Borrow Button -->
             <Button
@@ -93,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="@string/borrow" />
+                android:text="@string/borrow"
+                android:backgroundTint="@color/button"/>
         </LinearLayout>
 
     </LinearLayout>
