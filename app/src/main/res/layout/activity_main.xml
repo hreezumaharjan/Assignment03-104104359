@@ -1,121 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <!-- Use LinearLayout for vertical stacking -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_books"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_book"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal"
-        android:background="@drawable/store">
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/add" />
 
-        <!-- Enlarged ImageView -->
-        <ImageView
-            android:id="@+id/itemImage"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:contentDescription="@string/item_image_desc"
-            android:scaleType="centerCrop"
-            android:src="@drawable/guitar" />
-
-        <!-- Item Name -->
-        <TextView
-            android:id="@+id/itemName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Item Name"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <!-- Item Rating -->
-        <TextView
-            android:id="@+id/itemRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Rating: 4.5"
-            android:textSize="18sp" />
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="243dp"
-            android:layout_height="65dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="36dp"
-            android:isIndicator="true"
-            android:numStars="5"
-
-            android:rating="3.5"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:stepSize="0.1"
- />
-
-
-
-        <!-- Item Price -->
-        <TextView
-            android:id="@+id/itemPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Price: $50"
-            android:textSize="18sp" />
-
-        <!-- Item Description -->
-        <TextView
-            android:id="@+id/itemDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:padding="8dp"
-            android:text="Description of the item goes here."
-            android:textSize="16sp"
-            android:textColor="#666666" />
-
-        <!-- TextView for Displaying User Credit -->
-        <TextView
-            android:id="@+id/userCreditMainTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Your Credit: $120"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- Horizontal Layout for Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:backgroundTint="@color/button">
-
-            <!-- Next Button -->
-            <Button
-                android:id="@+id/nextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="@string/next"
-                android:backgroundTint="@color/button"/>
-
-            <!-- Borrow Button -->
-            <Button
-                android:id="@+id/borrowButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="@string/borrow"
-                android:backgroundTint="@color/button"/>
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -42,11 +43,16 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    // Adding the new dependencies
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.appcompat:appcompat:1.3.1") // Already included in libs alias; keep or remove
+    implementation("com.google.android.material:material:1.4.0") // Already included in libs alias; keep or remove
+    implementation("androidx.recyclerview:recyclerview:1.3.0")// Use the latest version available
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-
-
-
+    // Add other dependencies if needed
 }
+

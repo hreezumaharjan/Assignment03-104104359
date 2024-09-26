@@ -14,7 +14,7 @@
         android:theme="@style/Theme.W06MyFirstIntent"
         tools:targetApi="31">
         <activity
-            android:name=".DetailActivity"
+            android:name=".AddBookActivity"
             android:exported="true">
         </activity>
 
@@ -30,3 +30,4 @@
     </application>
 
 </manifest>
+

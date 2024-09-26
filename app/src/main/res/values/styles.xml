@@ -1,11 +1,13 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Your existing theme styles -->
-    </style>
+    <!-- Custom button style with border -->
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+        <item name="android:backgroundTint">#D32F2F</item> <!-- Dark red background -->
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_margin">8dp</item>
 
-    <style name="ButtonStyle">
-        <item name="android:background">#FF9800</item> <!-- Background color -->
-        <item name="android:textColor">#FFFFFF</item> <!-- Text color -->
-        <item name="android:padding">10dp</item> <!-- Padding -->
+
+
     </style>
 </resources>

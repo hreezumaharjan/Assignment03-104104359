@@ -1,168 +1,70 @@
 package au.edu.swin.sdmd.w06_myfirstintent
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
-    // List of rental items available for borrowing
-    private lateinit var rentalItems: List<RentalItem>
-    private var currentIndex = 0 // Tracks the currently displayed rental item
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var bookAdapter: BookAdapter
+    private var bookList = mutableListOf<Book>()
 
-    // SharedPreferences keys for storing user data
-    private val PREFS_NAME = "RentalAppPrefs"
-    private val CREDIT_KEY = "user_credit" // Key to store user's credit balance
-    private val BORROWED_ITEMS_KEY = "borrowed_items" // Key to store names of borrowed items
-    private val TAG = "MainActivity" // Tag for logging purposes
-
-    // Reference to SharedPreferences for persistent storage
-    private lateinit var sharedPreferences: SharedPreferences
-
-    // UI Elements: TextViews, ImageView, and Buttons
-    private lateinit var userCreditMainTextView: TextView
-    private lateinit var imageView: ImageView
-    private lateinit var nameTextView: TextView
-    private lateinit var ratingTextView: TextView
-    private lateinit var priceTextView: TextView
-    private lateinit var descriptionTextView: TextView
-    private lateinit var nextButton: Button
-    private lateinit var borrowButton: Button
-    private lateinit var ratingbar: RatingBar
-
+    // Create a launcher for AddBookActivity to get the result
+    private val addBookLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            data?.let {
+                val title = it.getStringExtra("title")
+                val author = it.getStringExtra("author")
+                val pages = it.getIntExtra("pages", 0)
+                val newBook = Book(title ?: "", author ?: "", pages, R.drawable.default_cover) // Use a default image for new books
+                bookList.add(newBook)
+                bookAdapter.notifyItemInserted(bookList.size - 1)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Sets the layout for this activity
+        setContentView(R.layout.activity_main)
 
-        // Initialize SharedPreferences for storing and retrieving user data
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-
-        // Reset user data only if the activity is created for the first time
-        if (savedInstanceState == null) {
-            resetData()
-        }
-
-        // Initialize the list of rental items with predefined data
-        rentalItems = listOf(
-            RentalItem(
-                name = "Guitar",
-                rating = 4.5f,
-                attribute = "Acoustic",
-                pricePerMonth = "$50",
-                description = "A high-quality acoustic guitar suitable for beginners and professionals.",
-                imageResId = R.drawable.guitar
-            ),
-            RentalItem(
-                name = "Drum Kit",
-                rating = 4.0f,
-                attribute = "Electronic",
-                pricePerMonth = "$80",
-                description = "An electronic drum kit with multiple sound options and connectivity features.",
-                imageResId = R.drawable.drum_kit
-            ),
-            RentalItem(
-                name = "Keyboard",
-                rating = 3.5f,
-                attribute = "Digital",
-                pricePerMonth = "$60",
-                description = "A versatile digital keyboard with various instrument sounds and recording capabilities.",
-                imageResId = R.drawable.keyboard
-            )
+        bookList = mutableListOf(
+            Book("1984", "George Orwell", 328, R.drawable.cover_1984),
+            Book("To Kill a Mockingbird", "Harper Lee", 281, R.drawable.cover_to_kill_a_mockingbird),
+            Book("The Great Gatsby", "F. Scott Fitzgerald", 180, R.drawable.cover_great_gatsby),
+            Book("Moby Dick", "Herman Melville", 585, R.drawable.cover_moby_dick),
+            Book("The Catcher in the Rye", "J.D. Salinger", 214, R.drawable.cover_catcher_in_the_rye)
         )
 
-        // Initialize UI components by linking them with their corresponding views in the layout
-        imageView = findViewById(R.id.itemImage)
-        nameTextView = findViewById(R.id.itemName)
-        ratingTextView = findViewById(R.id.itemRating)
-        priceTextView = findViewById(R.id.itemPrice)
-        descriptionTextView = findViewById(R.id.itemDescription)
-        nextButton = findViewById(R.id.nextButton)
-        borrowButton = findViewById(R.id.borrowButton)
-        userCreditMainTextView = findViewById(R.id.userCreditMainTextView)
-        ratingbar = findViewById(R.id.ratingBar)
+        recyclerView = findViewById(R.id.recycler_view_books)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Update the UI to display the first rental item
-        updateUI()
-
-        // Set up listener for the "Next" button to cycle through rental items
-        nextButton.setOnClickListener {
-            // Increment the current index and wrap around if it exceeds the list size
-            currentIndex = (currentIndex + 1) % rentalItems.size
-            Log.d(TAG, "Current index updated to: $currentIndex")
-            updateUI() // Refresh the UI with the new rental item
+        // Pass a lambda to handle item removal
+        bookAdapter = BookAdapter(bookList) { position ->
+            removeBookAtPosition(position)
         }
+        recyclerView.adapter = bookAdapter
 
-        // Set up listener for the "Borrow" button to initiate borrowing process
-        borrowButton.setOnClickListener {
-            // Create an Intent to navigate to DetailActivity, passing the selected rental item
-            val intent = Intent(this, DetailActivity::class.java).apply {
-                putExtra("rentalItem", rentalItems[currentIndex])
-            }
-            Log.d(TAG, "Borrow button clicked for item: ${rentalItems[currentIndex].name}")
-            startActivity(intent) // Start DetailActivity
+        // Add a FloatingActionButton to trigger AddBookActivity
+        val addBookFab: FloatingActionButton = findViewById(R.id.fab_add_book)
+        addBookFab.setOnClickListener {
+            val intent = Intent(this, AddBookActivity::class.java)
+            addBookLauncher.launch(intent)  // Use the launcher to start AddBookActivity
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        displayUserCredit() // Update the displayed user credit when the activity resumes
-        updateUI() // Refresh the UI in case any changes occurred
-    }
-
-    /**
-     * Updates the UI elements to display information about the current rental item.
-     * Also checks if the item has already been borrowed and updates the borrow button accordingly.
-     */
-    private fun updateUI() {
-        val item = rentalItems[currentIndex] // Get the current rental item
-        nameTextView.text = item.name
-        ratingTextView.text = "Rating: ${item.rating}"
-        ratingbar.rating =  item.rating
-        priceTextView.text = "Price: ${item.pricePerMonth}"
-        descriptionTextView.text = item.description
-        imageView.setImageResource(item.imageResId) // Set the image for the rental item
-
-        // Retrieve the set of borrowed items from SharedPreferences
-        val borrowedItems = sharedPreferences.getStringSet(BORROWED_ITEMS_KEY, mutableSetOf())
-        // Check if the current item is already borrowed
-        val isBorrowed = borrowedItems?.contains(item.name) ?: false
-
-        if (isBorrowed) {
-            borrowButton.text = "Borrowed" // Update button text to indicate it's already borrowed
-            borrowButton.isEnabled = false // Disable the button to prevent re-borrowing
-        } else {
-            borrowButton.text = "Borrow" // Set button text to "Borrow"
-            borrowButton.isEnabled = true // Enable the button to allow borrowing
+    // Function to remove a book from the list
+    private fun removeBookAtPosition(position: Int) {
+        if (position >= 0 && position < bookList.size) {
+            bookList.removeAt(position)  // Remove the book from the list
+            bookAdapter.notifyItemRemoved(position)  // Notify the adapter of the item removal
         }
-
-        Log.d(TAG, "Updated UI for item: ${item.name}, Borrowed: $isBorrowed")
-    }
-
-    /**
-     * Displays the user's current credit balance on the main screen.
-     */
-    private fun displayUserCredit() {
-        val currentCredit = sharedPreferences.getFloat(CREDIT_KEY, 120f) // Retrieve credit, default is $120
-        userCreditMainTextView.text = "Your Credit: $$currentCredit"
-        Log.d(TAG, "Displayed user credit: $$currentCredit")
-    }
-
-    /**
-     * Resets user data by setting the credit to $120 and clearing any borrowed items.
-     * This method is called only when the activity is created fresh (not recreated).
-     */
-    private fun resetData() {
-        // Reset user credit to $120
-        sharedPreferences.edit().putFloat(CREDIT_KEY, 120f).apply()
-        // Clear the set of borrowed items
-        sharedPreferences.edit().putStringSet(BORROWED_ITEMS_KEY, mutableSetOf<String>()).apply()
-        Log.d(TAG, "Data reset: User credit set to \$120, borrowed items cleared.")
     }
 }
+
+

@@ -1,26 +1,13 @@
-<!-- res/values/strings.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App Name -->
-    <string name="app_name">RentalApp</string>
+    <string name="app_name">My First Intent</string>
+    <string name="book_title">Title</string>
+    <string name="book_author">Author</string>
+    <string name="book_pages">Pages</string>
+    <string name="no_books_available">No books available.</string>
+    <string name="book_cover_desc">Book Cover</string>
+    <string name="book_cover">Book Cover</string>
+    <string name="add_book">Add a new book</string>
 
-    <!-- Button Texts -->
-    <string name="next">Next</string>
-    <string name="borrow">Borrow</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
 
-    <!-- Descriptions for Rental Items -->
-    <string name="guitar_description">Experience rich, warm sounds with our high-quality acoustic guitar, perfect for both beginners and seasoned musicians.</string>
-    <string name="drum_kit_description">Enhance your rhythm skills with our state-of-the-art electronic drum kit, featuring multiple sound options and seamless connectivity.</string>
-    <string name="keyboard_description">Unlock your musical potential with our versatile digital keyboard, offering a wide range of instrument sounds and advanced recording capabilities.</string>
-
-    <!-- Other Strings -->
-    <string name="item_image_desc">Image of the rental item</string>
-    <string name="detail_image_desc">Detailed image of the rental item</string>
-    <string name="user_credit">Your Credit: $%1$.2f</string>
-    <string name="duration">Duration: %1$d month%2$s</string>
-    <string name="credit_limit_exceeded">Credit limit exceeded</string>
-    <string name="already_borrowed">This item has already been borrowed</string>
-    <string name="invalid_price_format">Invalid price format</string>
-    <string name="booking_confirmed">Booking confirmed for %1$d month%2$s.\nRemaining Credit: $%3$.2f</string>
 </resources>
