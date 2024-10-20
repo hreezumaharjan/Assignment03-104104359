@@ -2,6 +2,7 @@ package au.edu.swin.sdmd.w06_myfirstintent
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var bookAdapter: BookAdapter
     private var bookList = mutableListOf<Book>()
+    private val TAG = "MainActivity"
 
     // Create a launcher for AddBookActivity to get the result
     private val addBookLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -23,8 +25,11 @@ class MainActivity : AppCompatActivity() {
                 val author = it.getStringExtra("author")
                 val pages = it.getIntExtra("pages", 0)
                 val newBook = Book(title ?: "", author ?: "", pages, R.drawable.default_cover) // Use a default image for new books
+
                 bookList.add(newBook)
                 bookAdapter.notifyItemInserted(bookList.size - 1)
+
+                Log.d(TAG, "Book added: $newBook") // Log book addition
             }
         }
     }
@@ -61,10 +66,11 @@ class MainActivity : AppCompatActivity() {
     // Function to remove a book from the list
     private fun removeBookAtPosition(position: Int) {
         if (position >= 0 && position < bookList.size) {
+            val removedBook = bookList[position] // Get the book being removed
             bookList.removeAt(position)  // Remove the book from the list
             bookAdapter.notifyItemRemoved(position)  // Notify the adapter of the item removal
+
+            Log.d(TAG, "Book removed: $removedBook") // Log book removal
         }
     }
 }
-
-
