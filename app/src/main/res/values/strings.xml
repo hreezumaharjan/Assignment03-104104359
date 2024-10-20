@@ -6,7 +6,7 @@
     <string name="book_pages">Pages</string>
     <string name="no_books_available">No books available.</string>
     <string name="book_cover_desc">Book Cover</string>
-    <string name="book_cover">Book Cover</string>
+    <string name="book_cover">BookCover</string>
     <string name="add_book">Add a new book</string>
 
 
