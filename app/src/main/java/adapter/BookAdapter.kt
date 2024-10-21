@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Intent
+
+
+
 class BookAdapter(
-    private val bookList: MutableList<Book>,
-    private val onItemRemove: (Int) -> Unit  // Callback for item removal
+    private var bookList: MutableList<Book>,
+    private val onItemRemove: (Int) -> Unit
 ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,11 +23,9 @@ class BookAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_book, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false)
         return BookViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val book = bookList[position]
         holder.titleTextView.text = book.title
@@ -33,10 +35,27 @@ class BookAdapter(
 
         // Set a long click listener to remove the item
         holder.itemView.setOnLongClickListener {
-            onItemRemove(position)  // Call the removal callback
+            onItemRemove(position)
             true
+        }
+
+        // Set a click listener to open the BookDetailsActivity
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, BookDetailsActivity::class.java).apply {
+                putExtra("title", book.title)
+                putExtra("author", book.author)
+                putExtra("pages", book.pages)
+                putExtra("coverImageResId", book.coverImageResId)
+            }
+            context.startActivity(intent)
         }
     }
 
     override fun getItemCount() = bookList.size
+
+    fun updateBooks(newBooks: MutableList<Book>) {
+        bookList = newBooks
+        notifyDataSetChanged()
+    }
 }

@@ -24,12 +24,13 @@ class MainActivity : AppCompatActivity() {
                 val title = it.getStringExtra("title")
                 val author = it.getStringExtra("author")
                 val pages = it.getIntExtra("pages", 0)
-                val newBook = Book(title ?: "", author ?: "", pages, R.drawable.default_cover) // Use a default image for new books
+                val rating = it.getFloatExtra("rating", 0f) // Retrieve the rating
+                val newBook = Book(title ?: "", author ?: "", pages, rating, R.drawable.default_cover) // Include rating
 
                 bookList.add(newBook)
                 bookAdapter.notifyItemInserted(bookList.size - 1)
 
-                Log.d(TAG, "Book added: $newBook") // Log book addition
+                Log.d(TAG, "Book added: $newBook with rating: $rating") // Log book addition
             }
         }
     }
@@ -38,18 +39,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Initialize the default book list
         bookList = mutableListOf(
-            Book("1984", "George Orwell", 328, R.drawable.cover_1984),
-            Book("To Kill a Mockingbird", "Harper Lee", 281, R.drawable.cover_to_kill_a_mockingbird),
-            Book("The Great Gatsby", "F. Scott Fitzgerald", 180, R.drawable.cover_great_gatsby),
-            Book("Moby Dick", "Herman Melville", 585, R.drawable.cover_moby_dick),
-            Book("The Catcher in the Rye", "J.D. Salinger", 214, R.drawable.cover_catcher_in_the_rye)
+            Book("1984", "George Orwell", 328, 4.5f, R.drawable.cover_1984),
+            Book("To Kill a Mockingbird", "Harper Lee", 281, 4.8f, R.drawable.cover_to_kill_a_mockingbird),
+            Book("The Great Gatsby", "F. Scott Fitzgerald", 180, 4.2f, R.drawable.cover_great_gatsby),
+            Book("Moby Dick", "Herman Melville", 585, 4.1f, R.drawable.cover_moby_dick),
+            Book("The Catcher in the Rye", "J.D. Salinger", 214, 3.9f, R.drawable.cover_catcher_in_the_rye)
         )
 
         recyclerView = findViewById(R.id.recycler_view_books)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Pass a lambda to handle item removal
+        // Pass a lambda to handle item removal and item clicks
         bookAdapter = BookAdapter(bookList) { position ->
             removeBookAtPosition(position)
         }

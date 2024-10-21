@@ -3,11 +3,12 @@
     <string name="app_name">My First Intent</string>
     <string name="book_title">Title</string>
     <string name="book_author">Author</string>
-    <string name="book_pages">Pages</string>
+
     <string name="no_books_available">No books available.</string>
     <string name="book_cover_desc">Book Cover</string>
     <string name="book_cover">BookCover</string>
     <string name="add_book">Add a new book</string>
+    <string name="book_pages">Pages: %1$d</string>
 
 
 </resources>
