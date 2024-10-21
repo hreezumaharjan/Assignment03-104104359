@@ -44,7 +44,7 @@
         android:numStars="5"
         android:stepSize="1"
         android:layout_marginTop="16dp"
-       />
+        />
 
     <Button
         android:id="@+id/button_go_back"

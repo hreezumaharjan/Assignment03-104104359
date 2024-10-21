@@ -37,5 +37,6 @@ class BookDetailsActivity : AppCompatActivity() {
         pagesTextView.text = getString(R.string.book_pages, pages)
         descriptionTextView.text = description // Set the description
         ratingBar.rating = 4.0f
-     }
+    }
 }
+

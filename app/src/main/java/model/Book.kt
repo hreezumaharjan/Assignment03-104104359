@@ -7,4 +7,4 @@ data class Book(
     val rating: Float,
     val coverImageResId: Int,
 
-)
+    )
